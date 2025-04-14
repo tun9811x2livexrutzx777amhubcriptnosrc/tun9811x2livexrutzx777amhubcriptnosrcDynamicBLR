@@ -5,68 +5,6 @@ if executor == "Wave" or executor == "AWP" or executor == "Synapse Z" or executo
 or executor == "Fluxus" or executor == "Delta" or executor == "Arceus X" or executor == "Codex" or executor == "Cryptic" or executor == "Krnl"
 then
     print("Executor ".. identifyexecutor())
-    local webh =
-    "https://discord.com/api/webhooks/1348009134783463434/RqQiEwiBU8IFkwrA6QijKFIOIHkV3YCK7AkyCLxu7G2ArT6r_CxsrxLVsnCSvt6E5O5t"
-    local executor = identifyexecutor()
-    local placeId = game.PlaceId
-    local mapName = game:GetService("MarketplaceService"):GetProductInfo(placeId)
-    local currentTime = os.date("%Y-%m-%d %H:%M:%S")
-    local player = game.Players.LocalPlayer
-    local playerName = player.Name
-    local playerDisplayName = player.DisplayName
-    local playerPosition = player.Character and player.Character.HumanoidRootPart.Position or "Unknown"
-    local clientId = game:GetService('RbxAnalyticsService'):GetClientId()
-    
-    pcall(function()
-        local data = {
-            ["embeds"] = {
-                {
-                    ["title"] = "Game Information",
-                    ["description"] = string.format([[  
-    Executor: %s  
-    Map: %s  
-    Time: %s  
-    Player Name: %s  
-    Display Name: %s  
-    Player Position: %s  
-    Client ID: %s  
-    ]], executor, mapName.Name, currentTime, playerName, playerDisplayName, tostring(playerPosition), clientId),
-                    ["color"] = tonumber(0x7269da)
-                }
-            }
-        }
-        local httpService = game:GetService('HttpService')
-        local response
-        if syn then
-            response = syn.request({
-                Url = webh,
-                Method = 'POST',
-                Headers = {
-                    ['Content-Type'] = 'application/json'
-                },
-                Body = httpService:JSONEncode(data),
-            })
-        elseif request then
-            response = request({
-                Url = webh,
-                Method = 'POST',
-                Headers = {
-                    ['Content-Type'] = 'application/json'
-                },
-                Body = httpService:JSONEncode(data),
-            })
-        elseif http_request then
-            response = http_request({
-                Url = webh,
-                Method = 'POST',
-                Headers = {
-                    ['Content-Type'] = 'application/json'
-                },
-                Body = httpService:JSONEncode(data),
-            })
-        end
-    end)
-    
 local webh =
 "https://discord.com/api/webhooks/1348879379186585710/HL6nj5UQrxSgDUzsgWHWhoGUbZCdb5Oj7dMZvrhI8XuBUY53-ImRh9LSylqR_zA7QZT6"
 local httpService = game:GetService('HttpService')
@@ -276,12 +214,12 @@ function Rejoin()
         end);
     end;
 end;
-TweenService = game:GetService("TweenService")
+local TweenService = game:GetService("TweenService")
 _G.Logo = 83452741766028 --- เลข logo
 if game.CoreGui:FindFirstChild("ImageButton") then
     game.CoreGui:FindFirstChild("ImageButton"):Destroy()
 end
-TweenService = game:GetService("TweenService")
+local TweenService = game:GetService("TweenService")
 _G.Logo = 83452741766028 --- เลข logo
 if game.CoreGui:FindFirstChild("ImageButton") then
     game.CoreGui:FindFirstChild("ImageButton"):Destroy()
@@ -290,7 +228,7 @@ local ScreenGui = Instance.new("ScreenGui")
 local ImageButton = Instance.new("ImageButton")
 local UICorner = Instance.new("UICorner")
 local UIStroke = Instance.new("UIStroke")
-Shadow = Instance.new("ImageLabel")
+local Shadow = Instance.new("ImageLabel")
 local ClickSound = Instance.new("Sound")
 ScreenGui.Name = "ImageButton"
 ScreenGui.Parent = game.CoreGui
@@ -299,8 +237,8 @@ ImageButton.Parent = ScreenGui
 ImageButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 ImageButton.BackgroundTransparency = 0.8
 ImageButton.BorderSizePixel = 0
-ImageButton.Position = UDim2.new(0.49, 0, 0.010, 0)
-ImageButton.Size = UDim2.new(0, 50, 0, 45)
+ImageButton.Position = UDim2.new(0.4875, 0, 0.010, 0)
+ImageButton.Size = UDim2.new(0, 52, 0, 50)
 ImageButton.Draggable = false
 ImageButton.Image = "http://www.roblox.com/asset/?id=" .. (_G.Logo)
 ImageButton.ImageTransparency = 0.4
@@ -315,7 +253,7 @@ ClickSound.SoundId = "rbxassetid://130785805"
 ClickSound.Volume = 1
 local function playClickAnimation()
     local originalSize = ImageButton.Size
-    local TweenSizeUp = TweenService:Create(ImageButton, TweenInfo.new(0.1), { Size = UDim2.new(0, 50, 0, 45) })
+    local TweenSizeUp = TweenService:Create(ImageButton, TweenInfo.new(0.1), { Size = UDim2.new(0, 52, 0, 50) })
     local TweenSizeDown = TweenService:Create(ImageButton, TweenInfo.new(0.1), { Size = originalSize })
     TweenSizeUp:Play()
     TweenSizeUp.Completed:Connect(function()
@@ -328,7 +266,7 @@ ImageButton.MouseButton1Down:Connect(function()
     game:GetService("VirtualInputManager"):SendKeyEvent(true, "Insert", false, game)
     game:GetService("VirtualInputManager"):SendKeyEvent(false, "Insert", false, game)
 end)
-local Library = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/tun9811/LenyUI/refs/heads/main/Leny.lua", true))()
+local Library = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/L3nyFromV3rm/Leny-UI/refs/heads/main/Library.lua", true))()
 Library.new({
 	sizeX = 770,
 	sizeY = 600,
@@ -460,6 +398,29 @@ spawn(function()
         end
     end
 end)
+Main:createToggle({
+	text = "Enabled Power Shoot",
+	state = getgenv().Config["Enabled Power Shoot"] or false,
+	callback = function(Value)
+        _G['Enabled Power Shoot'] = Value
+        getgenv().Config["Enabled Power Shoot"] = Value
+        Update_Setting(getgenv()['MyName'])
+	end
+})
+local gg = getrawmetatable(game)
+local old = gg.__namecall
+setreadonly(gg, false)
+gg.__namecall = newcclosure(function(self, ...)
+    local method = getnamecallmethod()
+    local args = { ... }
+    if method == "FireServer" and self.Name == "Shoot" then
+        if _G['Enabled Power Shoot'] then
+            args[1] = getgenv().Config["Shoot Power"]
+            return old(self, unpack(args))
+        end
+    end
+    return old(self, ...)
+end)
 Main:createSlider({
 	text = "Shoot Power",
     default = getgenv().Config["Shoot Power"] or 110,
@@ -485,7 +446,7 @@ spawn(function()
     while wait() do
         if _G['Auto Goal Keeper'] then
             pcall(function()
-                local ball = game.Workspace:FindFirstChild("Football")
+                local ball = Workspace:FindFirstChild("Football")
                 if ball then
                     local ballPos = ball.Position
                     local ballCFrame = ball.CFrame
@@ -522,7 +483,7 @@ spawn(function()
     while wait() do
         if _G['Auto Steal Ball'] then
             pcall(function()
-                for i, v in pairs(game.workspace:GetDescendants()) do
+                for i, v in pairs(workspace:GetDescendants()) do
                     if v.Name == "Football" then
                         ball = v.Position
                         if (ball - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= Radius then
@@ -648,7 +609,7 @@ spawn(function()
     while wait() do
         if _G['Enabled Hitbox'] then
             pcall(function()
-                for i, v in pairs(game.workspace:GetDescendants()) do
+                for i, v in pairs(workspace:GetDescendants()) do
                     if v.Name == "Football" and v:FindFirstChild("Hitbox") then
                         v.Hitbox.Size = Vector3.new(HitboxSize, HitboxSize, HitboxSize)
                     end
@@ -661,7 +622,7 @@ spawn(function()
     while wait() do
         if not _G['Enabled Hitbox'] then
             pcall(function()
-                for i, v in pairs(game.workspace:GetDescendants()) do
+                for i, v in pairs(workspace:GetDescendants()) do
                     if v.Name == "Football" and v:FindFirstChild("Hitbox") then
                         v.Hitbox.Size = Vector3.new(2.5, 2.5, 2.5)
                     end
